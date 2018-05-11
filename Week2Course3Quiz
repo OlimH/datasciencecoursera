@@ -1,0 +1,41 @@
+acs <- read.csv("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06pid.csv", header=TRUE, sep=",")
+
+acs=data.frame(acs)
+
+
+library(sqldf)
+
+#Query Dataframe
+
+sqldf("Select * from acs limit 5")
+
+a = sqldf('select pwgtp1, AGEP from acs where AGEP < 50')
+
+sqldf("select distinct AGEP from acs")
+
+library(XML)
+library(htmltools)
+
+url = 'http://biostat.jhsph.edu/~jleek/contact.html'
+
+html = htmlTreeParse(url, useInternal = TRUE)
+
+#Connect
+con = url("http://biostat.jhsph.edu/~jleek/contact.html")
+line = readLines(con)
+
+#To get the number of Characters in each line
+
+nchar(line[10])
+nchar(line[20])
+nchar(line[30])
+nchar(line[100])
+
+#To parse the html
+
+doc.text = unlist(xpathApply(html, '//p', xmlValue))
+
+doc.text = gsub('\\n', ' ', doc.text)
+
+doc.text = paste(doc.text, collapse = ' ')
+
